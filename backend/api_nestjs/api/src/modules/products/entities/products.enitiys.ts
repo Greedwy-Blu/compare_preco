@@ -1,4 +1,4 @@
-import { User } from '../../user/entities/user.eninty';
+import { User } from '../../user/entities/user.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class PrecoProdutos {
