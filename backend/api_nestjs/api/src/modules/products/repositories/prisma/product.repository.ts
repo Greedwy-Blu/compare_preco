@@ -4,6 +4,7 @@ import { PrecoProdutos } from '../../entities/product.entity';
 import { ProductsRepository } from '../product.repository';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { plainToClass } from 'class-transformer';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ProductsPrismaRepository implements ProductsRepository {
@@ -14,11 +15,10 @@ export class ProductsPrismaRepository implements ProductsRepository {
 
     const newProduct = await this.prisma.precoProdutos.create({
       data: {
-        nomeProduto: data.nomeProduto,
-        preco: data.preco,
-        promocao: data.promocao,
+        ...product,
         tipoProduto: data.tipoProduto,
-      },
+        user: { connect: { id: data.userId as any } },
+      } as Prisma.PrecoProdutosCreateInput,
     });
 
     return plainToClass(PrecoProdutos, newProduct);
@@ -43,7 +43,7 @@ export class ProductsPrismaRepository implements ProductsRepository {
   }
 
   async findByProduct(nomeProduto: string): Promise<PrecoProdutos> {
-    const product = await this.prisma.precoProdutos.findUnique({
+    const product = await this.prisma.precoProdutos.findFirst({
       where: { nomeProduto: { equals: nomeProduto } }, // Use a propriedade "equals" para comparar o nomeProduto
     });
     return plainToClass(PrecoProdutos, product);

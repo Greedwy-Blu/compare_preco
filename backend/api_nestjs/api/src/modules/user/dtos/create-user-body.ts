@@ -2,6 +2,7 @@ import { Transform } from 'class-transformer';
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { hashSync } from 'bcryptjs';
 import { ApiProperty } from '@nestjs/swagger';
+import { CreateProductDto } from 'src/modules/products/dtos/create-product-body';
 
 // data tranfer object
 export class CreateUserDto {
@@ -22,4 +23,6 @@ export class CreateUserDto {
     groups: ['transform'],
   })
   password: string;
+
+  PrecoProdutos?: CreateProductDto[];
 }

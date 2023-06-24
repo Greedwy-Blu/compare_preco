@@ -1,6 +1,6 @@
 import { token as _token } from './shared/http/token/entity/token.entity';
 import { User as _User } from './modules/user/entities/user.entity';
-import { PrecoProdutos as _PrecoProdutos } from './modules/products/entities/products.enitiys';
+import { PrecoProdutos as _PrecoProdutos } from './modules/products/entities/product.entity';
 
 export namespace PrismaModel {
   export class token extends _token {}

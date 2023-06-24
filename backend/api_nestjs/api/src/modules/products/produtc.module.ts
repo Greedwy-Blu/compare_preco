@@ -1,4 +1,4 @@
-import { ProductsPrismaRepository } from './repositories/prisma/product..repository';
+import { ProductsPrismaRepository } from './repositories/prisma/product.repository';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { ProductController } from './controllers/product.controller';
 import { ProductsService } from './services/product.service';

@@ -4,6 +4,7 @@ import { User } from '../../entities/user.entity';
 import { UsersRepository } from '../users.repository';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { plainToInstance } from 'class-transformer';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UsersPrismaRepository implements UsersRepository {
@@ -15,7 +16,12 @@ export class UsersPrismaRepository implements UsersRepository {
     });
 
     const newUser = await this.prisma.user.create({
-      data: { ...user },
+      data: {
+        ...user,
+        PrecoProdutos: {
+          create: data.PrecoProdutos,
+        },
+      } as Prisma.UserCreateInput,
     });
 
     return plainToInstance(User, newUser);

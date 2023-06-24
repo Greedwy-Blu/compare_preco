@@ -21,4 +21,7 @@ export class CreateProductDto {
   @ApiProperty()
   @IsString()
   tipoProduto: string;
+
+  @ApiProperty()
+  userId: number;
 }

@@ -39,7 +39,7 @@ export class ProdutcsInMemoryRepository implements ProductsRepository {
     return plainToInstance(PrecoProdutos, newProdutcs);
   }
 
-  findByEmail(nomeProduto: string): PrecoProdutos | Promise<PrecoProdutos> {
+  findByProduct(nomeProduto: string): PrecoProdutos | Promise<PrecoProdutos> {
     const produtc = this.database['products'].find(
       (produtc: PrecoProdutos) => produtc.nomeProduto === nomeProduto,
     );
