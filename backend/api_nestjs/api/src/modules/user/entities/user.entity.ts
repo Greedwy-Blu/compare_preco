@@ -16,5 +16,5 @@ export class User {
   name?: string;
 
   @IsDefined()
-  PrecoProdutos!: PrecoProdutos[];
+  PrecoProdutos?: PrecoProdutos[];
 }

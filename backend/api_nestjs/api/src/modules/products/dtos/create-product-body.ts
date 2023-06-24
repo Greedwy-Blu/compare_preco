@@ -4,7 +4,7 @@ import { hashSync } from 'bcryptjs';
 import { ApiProperty } from '@nestjs/swagger';
 
 // data tranfer object
-export class CreateUserDto {
+export class CreateProductDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()

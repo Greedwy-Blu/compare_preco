@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from '../../dtos/create-product-body';
-import { User } from '../../entities/product.entity';
-import { UsersRepository } from '../product.repository';
+import { CreateProductDto } from '../../dtos/create-product-body';
+import { PrecoProdutos } from '../../entities/product.entity';
+import { ProductsRepository } from '../product.repository';
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 import { plainToInstance } from 'class-transformer';
 
 @Injectable()
-export class UsersInMemoryRepository implements UsersRepository {
+export class ProdutcsInMemoryRepository implements ProductsRepository {
   private database = {};
   private databasePath = path.resolve(__dirname, '../../../../../db.json');
 
@@ -25,42 +25,44 @@ export class UsersInMemoryRepository implements UsersRepository {
       });
   }
 
-  create(data: CreateUserDto): User | Promise<User> {
-    const newUser = new User();
-    Object.assign(newUser, {
+  create(data: CreateProductDto): PrecoProdutos | Promise<PrecoProdutos> {
+    const newProdutcs = new PrecoProdutos();
+    Object.assign(newProdutcs, {
       ...data,
     });
-    if (Array.isArray(this.database['users'])) {
-      this.database['users'].push(newUser);
+    if (Array.isArray(this.database['products'])) {
+      this.database['products'].push(newProdutcs);
     } else {
-      this.database['users'] = [newUser];
+      this.database['products'] = [newProdutcs];
     }
     this.persist();
-    return plainToInstance(User, newUser);
+    return plainToInstance(PrecoProdutos, newProdutcs);
   }
 
-  findByEmail(email: string): User | Promise<User> {
-    const user = this.database['users'].find(
-      (user: User) => user.email === email,
+  findByEmail(nomeProduto: string): PrecoProdutos | Promise<PrecoProdutos> {
+    const produtc = this.database['products'].find(
+      (produtc: PrecoProdutos) => produtc.nomeProduto === nomeProduto,
     );
-    return plainToInstance(User, user);
+    return plainToInstance(PrecoProdutos, produtc);
   }
 
-  findAll(): Promise<User[]> | User[] {
-    const users: User[] = this.database['users'] || [];
-    return plainToInstance(User, users);
+  findAll(): Promise<PrecoProdutos[]> | PrecoProdutos[] {
+    const produtcs: PrecoProdutos[] = this.database['produtcs'] || [];
+    return plainToInstance(PrecoProdutos, produtcs);
   }
 
-  findOne(id: number): User | Promise<User> {
-    const user = this.database['users'].find((user: User) => user.id === id);
-    return plainToInstance(User, user);
+  findOne(id: number): PrecoProdutos | Promise<PrecoProdutos> {
+    const produtcs = this.database['produtc'].find(
+      (produtcs: PrecoProdutos) => produtcs.id === id,
+    );
+    return plainToInstance(PrecoProdutos, produtcs);
   }
 
   delete(id: number): void | Promise<void> {
-    const userIndex = this.database['users'].findIndex(
-      (user: User) => user.id === id,
+    const produtcIndex = this.database['produtcs'].findIndex(
+      (produtcs: PrecoProdutos) => produtcs.id === id,
     );
-    this.database['users'].splice(userIndex, 1);
+    this.database['produtcs'].splice(produtcIndex, 1);
     this.persist();
   }
 }

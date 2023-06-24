@@ -1,23 +1,20 @@
-import { forwardRef } from '@nestjs/common/utils';
+import { ProductsPrismaRepository } from './repositories/prisma/product..repository';
+import { PrismaService } from 'src/shared/database/prisma.service';
+import { ProductController } from './controllers/product.controller';
+import { ProductsService } from './services/product.service';
+import { ProductsRepository } from './repositories/product.repository';
 import { Module } from '@nestjs/common';
-import { UsersService } from './services/user.service';
-import { UsersController } from './controllers/product.controller';
-import { UsersRepository } from './repositories/product.repository';
-import { UsersInMemoryRepository } from './repositories/in-memory/product.in-memory.reporitory';
-import { PrismaService } from '../../shared/database/prisma.service';
-import { UsersPrismaRepository } from './repositories/prisma/product..repository';
-import { AuthModule } from 'src/shared/http/providers/auth.module';
 
 @Module({
-  controllers: [UsersController],
+  controllers: [ProductController],
   providers: [
-    UsersService,
+    ProductsService,
     PrismaService,
     {
-      provide: UsersRepository,
-      useClass: UsersPrismaRepository,
+      provide: ProductsRepository,
+      useClass: ProductsPrismaRepository,
     },
   ],
-  exports: [UsersService],
+  exports: [ProductsService],
 })
-export class UsersModule {}
+export class ProductModule {}

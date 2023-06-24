@@ -1,45 +1,51 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from '../../dtos/create-product-body';
-import { User } from '../../entities/product.entity';
-import { UsersRepository } from '../product.repository';
+import { CreateProductDto } from '../../dtos/create-product-body';
+import { PrecoProdutos } from '../../entities/product.entity';
+import { ProductsRepository } from '../product.repository';
 import { PrismaService } from 'src/shared/database/prisma.service';
-import { plainToInstance } from 'class-transformer';
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
-export class UsersPrismaRepository implements UsersRepository {
+export class ProductsPrismaRepository implements ProductsRepository {
   constructor(private prisma: PrismaService) {}
-  async create(data: CreateUserDto): Promise<User> {
-    const user = new User();
-    Object.assign(user, {
-      ...data,
+
+  async create(data: CreateProductDto): Promise<PrecoProdutos> {
+    const product = plainToClass(PrecoProdutos, data);
+
+    const newProduct = await this.prisma.precoProdutos.create({
+      data: {
+        nomeProduto: data.nomeProduto,
+        preco: data.preco,
+        promocao: data.promocao,
+        tipoProduto: data.tipoProduto,
+      },
     });
 
-    const newUser = await this.prisma.user.create({
-      data: { ...user },
-    });
+    return plainToClass(PrecoProdutos, newProduct);
+  }
 
-    return plainToInstance(User, newUser);
+  async findAll(): Promise<PrecoProdutos[]> {
+    const products = await this.prisma.precoProdutos.findMany();
+    return plainToClass(PrecoProdutos, products);
   }
-  async findAll(): Promise<User[]> {
-    const users = await this.prisma.user.findMany();
-    return plainToInstance(User, users);
-  }
-  async findOne(id: number): Promise<User> {
-    const user = await this.prisma.user.findUnique({
+
+  async findOne(id: number): Promise<PrecoProdutos> {
+    const product = await this.prisma.precoProdutos.findUnique({
       where: { id },
     });
-    return plainToInstance(User, user);
+    return plainToClass(PrecoProdutos, product);
   }
 
   async delete(id: number): Promise<void> {
-    await this.prisma.user.delete({
+    await this.prisma.precoProdutos.delete({
       where: { id },
     });
   }
-  async findByEmail(email: string): Promise<User> {
-    const user = await this.prisma.user.findUnique({
-      where: { email },
+
+  async findByProduct(nomeProduto: string): Promise<PrecoProdutos> {
+    const product = await this.prisma.precoProdutos.findUnique({
+      where: { nomeProduto: { equals: nomeProduto } }, // Use a propriedade "equals" para comparar o nomeProduto
     });
-    return user;
+    return plainToClass(PrecoProdutos, product);
   }
 }

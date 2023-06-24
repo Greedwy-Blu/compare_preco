@@ -7,13 +7,13 @@ export class PrecoProdutos {
   id: number;
 
   @ApiPropertyOptional({ type: String })
-  email?: string;
+  nomeProduto?: string;
 
   @ApiPropertyOptional({ type: String })
-  password?: string;
+  preco?: string;
 
   @ApiPropertyOptional({ type: String })
-  name?: string;
+  promocao?: string;
 
   @IsDefined()
   user!: User;

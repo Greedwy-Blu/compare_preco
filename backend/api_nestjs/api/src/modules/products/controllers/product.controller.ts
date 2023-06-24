@@ -9,20 +9,20 @@ import {
   ClassSerializerInterceptor,
   UseGuards,
 } from '@nestjs/common';
-import { UsersService } from '../services/user.service';
-import { CreateUserDto } from '../dtos/create-product-body';
+import { ProductsService } from '../services/product.service';
+import { CreateProductDto } from '../dtos/create-product-body';
 import { JwtAuthGuard } from '../../../shared/http/providers/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('users')
-@Controller('users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+@ApiTags('products')
+@Controller('products')
+export class ProductController {
+  constructor(private readonly productsService: ProductsService) {}
 
   @Post()
   @UseInterceptors(ClassSerializerInterceptor)
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  create(@Body() createProductDto: CreateProductDto) {
+    return this.productsService.create(createProductDto);
   }
 
   @Get()
@@ -30,7 +30,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   findAll() {
-    return this.usersService.findAll();
+    return this.productsService.findAll();
   }
 
   @Get(':id')
@@ -38,13 +38,13 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   findOne(@Param('id') id: number) {
-    return this.usersService.findOne(id);
+    return this.productsService.findOne(id);
   }
 
   @Delete(':id')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: number) {
-    return this.usersService.remove(id);
+    return this.productsService.remove(id);
   }
 }
