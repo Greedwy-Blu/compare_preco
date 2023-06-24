@@ -8,18 +8,17 @@ export class CreateUserDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  name: string;
+  nomeProduto: string;
 
   @ApiProperty()
-  @IsEmail()
-  email: string;
+  @IsNotEmpty()
+  preco: string;
 
   @ApiProperty()
   @IsString()
-  @IsNotEmpty()
-  @MinLength(8)
-  @Transform(({ value }: { value: string }) => hashSync(value, 10), {
-    groups: ['transform'],
-  })
-  password: string;
+  promocao: string;
+
+  @ApiProperty()
+  @IsString()
+  tipoProduto: string;
 }

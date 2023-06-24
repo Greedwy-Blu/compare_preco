@@ -33,6 +33,7 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
+    "prisma-class-validator-generator": "^0.2.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "zod": "^3.21.4"

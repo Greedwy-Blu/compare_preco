@@ -1,3 +1,5 @@
+import { IsDefined } from 'class-validator';
+import { PrecoProdutos } from './../../products/entities/product.entity';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class User {
@@ -12,4 +14,7 @@ export class User {
 
   @ApiPropertyOptional({ type: String })
   name?: string;
+
+  @IsDefined()
+  PrecoProdutos!: PrecoProdutos[];
 }
