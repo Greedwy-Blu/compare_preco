@@ -8,12 +8,11 @@ import { AuthService } from '../providers/auth.service';
 import { createTokenBody } from './dto/create-token-body';
 import { User } from '../../../modules/user/entities/user.entity';
 @Injectable()
-export class tokenService {
+export class TokenService {
   constructor(
-    private prisma: PrismaService,
-    private userService: UsersService,
-    @Inject(forwardRef(() => AuthService))
-    private authService: AuthService,
+    private readonly prisma: PrismaService,
+    private readonly userService: UsersService,
+    private readonly authService: AuthService,
   ) {}
 
   async save(hash: string, username: string, userId: string | number) {

@@ -1,20 +1,19 @@
+import { forwardRef } from '@nestjs/common/utils';
 import { User } from '../../../modules/user/entities/user.entity';
-import { tokenService } from '../token/token.service';
+import { TokenService } from '../token/token.service';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../../../modules/user/services/user.service';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
-import { CreateUserDto } from '../../../modules/user/dtos/create-user-body';
+import { HttpException, HttpStatus, Injectable, Inject } from '@nestjs/common';
+import * as bcrypt from 'bcryptjs';
 import { UserToken } from './models/UserToken';
 import { UserPayload } from './models/UserPayload';
 import { UnauthorizedError } from './errors/unauthorized.error';
-import { token } from '../token/entity/token.entity';
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
-    private tokenService: tokenService,
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
+    private readonly tokenService: TokenService,
   ) {}
 
   async login(user: User): Promise<UserToken> {
